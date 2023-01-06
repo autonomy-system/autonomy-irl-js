@@ -1,0 +1,29 @@
+{
+  "name": "autonomy-irl-js",
+  "version": "1.0.0",
+  "description": "This is a test package to help learn about creating and publishing NPM packages.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape **/*.js",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autonomy-system/autonomy-irl-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/autonomy-system/autonomy-irl-js/issues"
+  },
+  "homepage": "https://github.com/autonomy-system/autonomy-irl-js#readme",
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-plugin-import": "^2.25.4",
+    "husky": "^7.0.4",
+    "tape": "^5.5.2"
+  }
+}
