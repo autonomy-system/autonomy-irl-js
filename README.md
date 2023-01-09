@@ -28,7 +28,7 @@ function getAddress(blockChain) {
 
 [Project example](example)
 
-[![Watch the video](example/DEMO.mp4)](example/DEMO.mp4)
+<video src='https://user-images.githubusercontent.com/24427942/211269856-e93628d6-e52e-4ad6-a8ce-3f79a72747ed.mp4'/>
 
 ## License
 
