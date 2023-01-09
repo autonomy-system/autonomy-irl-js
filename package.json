@@ -1,7 +1,7 @@
 {
   "name": "autonomy-irl-js",
   "version": "1.0.0",
-  "description": "This is a test package to help learn about creating and publishing NPM packages.",
+  "description": "Autonomy IRL",
   "main": "index.js",
   "directories": {
     "test": "test"

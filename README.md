@@ -1,15 +1,7 @@
-# Hello World for NPM
-
-This is a test package to help learn about creating and
-publishing NPM packages.
-
-The package provides a function 'sayHello' which, by default,
-prints "Hello World" to the console.
-
 ## Install
 
 ```bash
-npm install @treborg/hello-world-npm
+npm install autonomy-irl-js
 ```
 
 ## Run Tests
@@ -31,6 +23,12 @@ function getAddress(blockChain) {
   });
 }
 ```
+
+## Demo
+
+[Project example](example)
+
+[![Watch the video](example/DEMO.mp4)](example/DEMO.mp4)
 
 ## License
 
