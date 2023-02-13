@@ -14,13 +14,96 @@ npm test
 
 ```JS
 import autonomyIRL from "autonomy-irl-js";
-// get an address by blockchain
-// blockchain = "Tezos" => get tez address
-// blockchain = "Ethereum" => get eth address
-function getAddress(blockChain) {
-  autonomyIRL.getAddress(blockChain).then((value) => {
-    console.log(value);
-  });
+// get an address by chain
+// chain = autonomyIRL.chain.tez => get tez address
+// chain = autonomyIRL.chain.eth => get eth address
+
+function getAddress({ chain, params }) {
+  autonomyIRL
+    .getAddress({
+      chain: chain,
+      params: params,
+      metadata: {
+        name: "app_name",
+        description: "app_description",
+        url: "#",
+        icons: ["url_icon"],
+      },
+    })
+    .then((value) => {
+      if (value.errorMessage != null) {
+        console.log(value.errorMessage);
+      } else {
+        console.log(value.result);
+      }
+    });
+}
+```
+
+```JS
+function closeWebview() {
+  autonomyIRL.closeWebview();
+}
+```
+
+```JS
+function signMessage() {
+  autonomyIRL
+    .signMessage({
+      payload: "payload",
+      sourceAddress: "address",
+      chain: autonomyIRL.chain.eth,
+      metadata: {
+        name: "app_name",
+        description: "app_description",
+        url: "#",
+        icons: ["url_icon"],
+      },
+    })
+    .then((value) => {
+      if (value.errorMessage != null) {
+        console.log(value.errorMessage);
+      } else {
+        console.log(value.result);
+      }
+    });
+}
+```
+
+```JS
+function sendTransaction() {
+  autonomyIRL
+    .sendTransaction({
+      transactions: [
+        {
+          from: "address",
+          to: "address",
+          gasLimit: "<optional>",
+          maxFeePerGas: "<optional>",
+          maxPriorityFeePerGas: "<optional>",
+          nonce: "0",
+          value: "value",
+          data: "<optional>",
+        },
+      ],
+      sourceAddress: "address",
+      metadata: {
+        metadata: {
+          name: "app_name",
+          description: "app_description",
+          url: "#",
+          icons: ["url_icon"],
+        },
+      },
+      chain: autonomyIRL.chain.eth,
+    })
+    .then((value) => {
+      if (value.errorMessage != null) {
+        console.log(value.errorMessage);
+      } else {
+        console.log(value.result);
+      }
+    });
 }
 ```
 
