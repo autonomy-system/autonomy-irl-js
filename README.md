@@ -1,3 +1,5 @@
+# Autonomy IRL
+
 ## Install
 
 ```bash
@@ -10,7 +12,20 @@ npm install autonomy-irl-js
 npm test
 ```
 
-## Use
+## Usage
+
+### Construct a URL to scan
+```
+https://autonomy.io/apps/irl/{{ url_encoded(your_url }}
+```
+
+**Example:**
+To let the Autonomy app open this URL: `https://example.com?query=1`
+```
+https://autonomy.io/apps/irl/https%3A%2F%2Fexample.com%3Fquery%3D1
+```
+
+### Code
 
 ```JS
 import autonomyIRL from "autonomy-irl-js";
