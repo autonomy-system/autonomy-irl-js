@@ -91,14 +91,31 @@ function sendTransaction() {
     .sendTransaction({
       transactions: [
         {
-          from: "address",
-          to: "address",
-          gasLimit: "<optional>",
-          maxFeePerGas: "<optional>",
-          maxPriorityFeePerGas: "<optional>",
-          nonce: "0",
-          value: "value",
-          data: "<optional>",
+          kind: "transaction",
+          destination: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
+          amount: 0,
+          mutez: true,
+          entrypoint: "mint",
+          parameters: {
+            prim: "Pair",
+            args: [
+              {
+                int: "120",
+              },
+              {
+                prim: "Pair",
+                args: [
+                  {
+                    prim: "None",
+                  },
+                  {
+                    prim: "None",
+                  },
+                ],
+              },
+            ],
+          },
+          storageLimit: "650",
         },
       ],
       sourceAddress: "address",
@@ -110,7 +127,7 @@ function sendTransaction() {
           icons: ["url_icon"],
         },
       },
-      chain: autonomyIRL.chain.eth,
+      chain: autonomyIRL.chain.tez,
     })
     .then((value) => {
       if (value.errorMessage != null) {
