@@ -1,20 +1,29 @@
 # Autonomy IRL
 
-## Install
+## Download the app
+### iOS
+https://apps.apple.com/us/app/autonomy-app/id1544022728
+
+### Android
+https://play.google.com/store/apps/details?id=com.bitmark.autonomy_client
+
+## Library
+
+### Install
 
 ```bash
 npm install autonomy-irl-js
 ```
 
-## Run Tests
+### Run Tests
 
 ```bash
 npm test
 ```
 
-## Usage
+### Usage
 
-### Construct a URL to scan
+#### Construct a URL to scan
 ```
 https://autonomy.io/apps/irl/{{ url_encoded(your_url }}
 ```
@@ -25,7 +34,7 @@ To let the Autonomy app open this URL: `https://example.com?query=1`
 https://autonomy.io/apps/irl/https%3A%2F%2Fexample.com%3Fquery%3D1
 ```
 
-### Code
+#### Code
 **How to use AUWalletProvider:**
 ```JS
 async function callProvider() {
@@ -209,7 +218,7 @@ function closeWebview() {
 }
 ```
 
-## Demo
+### Demo
 
 [Project example](example)
 
