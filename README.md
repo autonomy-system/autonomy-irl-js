@@ -26,116 +26,186 @@ https://autonomy.io/apps/irl/https%3A%2F%2Fexample.com%3Fquery%3D1
 ```
 
 ### Code
+**How to use AUWalletProvider:**
+```JS
+async function callProvider() {
+  try {
+    const tezos = new TezosToolkit("https://api.tez.ie/rpc/carthagenet");
+
+    const auWalletProvider = new AUWalletProvider({
+      name: "Feral File",
+      description:
+        "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+      url: "#",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
+    });
+
+    tezos.setWalletProvider(auWalletProvider);
+
+    await tezos.wallet.pkh();
+
+    const ops = [];
+
+    ops.push({
+      kind: OpKind.TRANSACTION,
+      to: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
+      amount: 1,
+      mutez: true,
+      parameter: {
+        entrypoint: "mint",
+        value: {
+          prim: "Pair",
+          args: [
+            {
+              int: "34",
+            },
+            {
+              prim: "Pair",
+              args: [
+                {
+                  prim: "None",
+                },
+                {
+                  prim: "None",
+                },
+              ],
+            },
+          ],
+        },
+      },
+      storageLimit: 650,
+    });
+
+    const transaction = await tezos.wallet.batch().with(ops).send();
+    console.log(transaction.opHash);
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
 
 ```JS
-import autonomyIRL from "autonomy-irl-js";
-// get an address by chain
-// chain = autonomyIRL.chain.tez => get tez address
-// chain = autonomyIRL.chain.eth => get eth address
-
-function getAddress({ chain, params }) {
+function getAddress() {
+  const autonomyIRL = new AutonomyIRL();
   autonomyIRL
-    .getAddress({
-      chain: chain,
-      params: params,
-      metadata: {
-        name: "app_name",
-        description: "app_description",
-        url: "#",
-        icons: ["url_icon"],
-      },
+    .getAddress(autonomyIRL.chain.tez, {
+      name: "Feral File",
+      description:
+        "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+      url: "#",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
     })
     .then((value) => {
       if (value.errorMessage != null) {
-        console.log(value.errorMessage);
+        alert(value.errorMessage);
       } else {
-        console.log(value.result);
+        alert(value.result);
       }
     });
 }
 ```
 
+
+```JS
+async function signMessage() {
+  const autonomyIRL = new AutonomyIRL();
+  const address = await autonomyIRL.getAddress(autonomyIRL.chain.tez, {
+    name: "Feral File",
+    description:
+      "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+    url: "#",
+    icons: ["https://feralfile.com/assets/FeralFile.png"],
+  });
+  if (address.result != null) {
+    autonomyIRL
+      .signMessage(
+        "05010000004254657a6f73205369676e6564204d6573736167653a206d79646170702e636f6d20323032312d30312d31345431353a31363a30345a2048656c6c6f20776f726c6421",
+        address.result,
+        autonomyIRL.chain.tez,
+        {
+          name: "Feral File",
+          description:
+            "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+          url: "#",
+          icons: ["https://feralfile.com/assets/FeralFile.png"],
+        }
+      )
+      .then((value) => {
+        if (value.errorMessage != null) {
+          alert(value.errorMessage);
+        } else {
+          alert(value.result);
+        }
+      });
+  }
+}
+```
+
+```JS
+async function sendTransaction() {
+  const autonomyIRL = new AutonomyIRL();
+  const address = await autonomyIRL.getAddress(autonomyIRL.chain.tez, {
+    name: "Feral File",
+    description:
+      "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+    url: "#",
+    icons: ["https://feralfile.com/assets/FeralFile.png"],
+  });
+  if (address.result != null) {
+    autonomyIRL
+      .sendTransaction(
+        autonomyIRL.chain.tez,
+        address.result,
+        [
+          {
+            kind: "transaction",
+            destination: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
+            amount: 0,
+            mutez: true,
+            entrypoint: "mint",
+            parameters: {
+              prim: "Pair",
+              args: [
+                {
+                  int: "120",
+                },
+                {
+                  prim: "Pair",
+                  args: [
+                    {
+                      prim: "None",
+                    },
+                    {
+                      prim: "None",
+                    },
+                  ],
+                },
+              ],
+            },
+            storageLimit: "650",
+          },
+        ],
+        {
+          name: "Feral File",
+          description:
+            "Feral File - Exhibiting, Curating, and Collecting Digital Media",
+          url: "#",
+          icons: ["https://feralfile.com/assets/FeralFile.png"],
+        }
+      )
+      .then((value) => {
+        if (value.errorMessage != null) {
+          alert(value.errorMessage);
+        } else {
+          alert(value.result);
+        }
+      });
+  }
+}
+```
 ```JS
 function closeWebview() {
   autonomyIRL.closeWebview();
-}
-```
-
-```JS
-function signMessage() {
-  autonomyIRL
-    .signMessage({
-      payload: "payload",
-      sourceAddress: "address",
-      chain: autonomyIRL.chain.eth,
-      metadata: {
-        name: "app_name",
-        description: "app_description",
-        url: "#",
-        icons: ["url_icon"],
-      },
-    })
-    .then((value) => {
-      if (value.errorMessage != null) {
-        console.log(value.errorMessage);
-      } else {
-        console.log(value.result);
-      }
-    });
-}
-```
-
-```JS
-function sendTransaction() {
-  autonomyIRL
-    .sendTransaction({
-      transactions: [
-        {
-          kind: "transaction",
-          destination: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
-          amount: 0,
-          mutez: true,
-          entrypoint: "mint",
-          parameters: {
-            prim: "Pair",
-            args: [
-              {
-                int: "120",
-              },
-              {
-                prim: "Pair",
-                args: [
-                  {
-                    prim: "None",
-                  },
-                  {
-                    prim: "None",
-                  },
-                ],
-              },
-            ],
-          },
-          storageLimit: "650",
-        },
-      ],
-      sourceAddress: "address",
-      metadata: {
-        metadata: {
-          name: "app_name",
-          description: "app_description",
-          url: "#",
-          icons: ["url_icon"],
-        },
-      },
-      chain: autonomyIRL.chain.tez,
-    })
-    .then((value) => {
-      if (value.errorMessage != null) {
-        console.log(value.errorMessage);
-      } else {
-        console.log(value.result);
-      }
-    });
 }
 ```
 
