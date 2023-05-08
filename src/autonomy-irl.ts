@@ -70,10 +70,12 @@ export class AUWalletProvider implements WalletProvider {
   constructor(private metadata: any) {
     this.autonomyIRL = new AutonomyIRL();
     this._pkh = "";
+    this._ethPkh = "";
   }
   private autonomyIRL: AutonomyIRL;
 
   private _pkh: string;
+  private _ethPkh: string;
 
   async getPKH(): Promise<string> {
     var value = await this.autonomyIRL.getAddress(
@@ -83,6 +85,18 @@ export class AUWalletProvider implements WalletProvider {
     );
     if (value.result != null) {
       this._pkh = value.result;
+    }
+    return value.result;
+  }
+
+  async getEthPKH(): Promise<string> {
+    var value = await this.autonomyIRL.getAddress(
+      this.autonomyIRL.chain.eth,
+      this.metadata,
+      null
+    );
+    if (value.result != null) {
+      this._ethPkh = value.result;
     }
     return value.result;
   }
@@ -136,6 +150,16 @@ export class AUWalletProvider implements WalletProvider {
     const value = await this.autonomyIRL.sendTransaction(
       this.autonomyIRL.chain.tez,
       this._pkh,
+      params,
+      this.metadata
+    );
+    return value.result;
+  }
+
+  async sendEthTransaction(params: any[]) {
+    const value = await this.autonomyIRL.sendTransaction(
+      this.autonomyIRL.chain.eth,
+      this._ethPkh,
       params,
       this.metadata
     );

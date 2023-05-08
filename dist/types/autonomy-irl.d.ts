@@ -20,7 +20,9 @@ export declare class AUWalletProvider implements WalletProvider {
     constructor(metadata: any);
     private autonomyIRL;
     private _pkh;
+    private _ethPkh;
     getPKH(): Promise<string>;
+    getEthPKH(): Promise<string>;
     mapTransferParamsToWalletParams(params: () => Promise<WalletTransferParams>): Promise<{
         kind: string;
         destination: string;
@@ -45,4 +47,5 @@ export declare class AUWalletProvider implements WalletProvider {
     mapDelegateParamsToWalletParams(params: () => Promise<WalletDelegateParams>): Promise<WalletDelegateParams>;
     mapIncreasePaidStorageWalletParams(params: () => Promise<WalletIncreasePaidStorageParams>): Promise<WalletIncreasePaidStorageParams>;
     sendOperations(params: any[]): Promise<any>;
+    sendEthTransaction(params: any[]): Promise<any>;
 }
