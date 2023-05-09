@@ -84,7 +84,6 @@ var AUWalletProvider = /** @class */ (function () {
         this.metadata = metadata;
         this.autonomyIRL = new AutonomyIRL();
         this._pkh = "";
-        this._ethPkh = "";
     }
     AUWalletProvider.prototype.getPKH = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -96,22 +95,6 @@ var AUWalletProvider = /** @class */ (function () {
                         value = _a.sent();
                         if (value.result != null) {
                             this._pkh = value.result;
-                        }
-                        return [2 /*return*/, value.result];
-                }
-            });
-        });
-    };
-    AUWalletProvider.prototype.getEthPKH = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var value;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.autonomyIRL.getAddress(this.autonomyIRL.chain.eth, this.metadata, null)];
-                    case 1:
-                        value = _a.sent();
-                        if (value.result != null) {
-                            this._ethPkh = value.result;
                         }
                         return [2 /*return*/, value.result];
                 }
@@ -185,19 +168,6 @@ var AUWalletProvider = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.autonomyIRL.sendTransaction(this.autonomyIRL.chain.tez, this._pkh, params, this.metadata)];
-                    case 1:
-                        value = _a.sent();
-                        return [2 /*return*/, value.result];
-                }
-            });
-        });
-    };
-    AUWalletProvider.prototype.sendEthTransaction = function (params) {
-        return __awaiter(this, void 0, void 0, function () {
-            var value;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.autonomyIRL.sendTransaction(this.autonomyIRL.chain.eth, this._ethPkh, params, this.metadata)];
                     case 1:
                         value = _a.sent();
                         return [2 /*return*/, value.result];

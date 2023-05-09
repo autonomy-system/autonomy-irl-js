@@ -73,13 +73,13 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={() => getAddress("eip155")}> Get Ethereum Address</button>
+        <button onClick={() => getAddress("eip155")}>Get Ethereum Address</button>
         <br></br>
-        <button onClick={() => testEth()}> Send eth transaction</button>
+        <button onClick={() => testEth()}>Send eth transaction</button>
         <br></br>
-        <button onClick={() => signMessage("1234567890", "eip155", {"name":"test"})}> Ethereum sign message</button>
+        <button onClick={() => signMessage("1234567890", "eip155", {"name":"test"})}>Ethereum sign message</button>
         <br></br>
-        <button onClick={() => closeWebview()}> Close Webview</button>
+        <button onClick={() => closeWebview()}>Close Webview</button>
       </header>
     </div>
   );
