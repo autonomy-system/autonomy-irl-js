@@ -1,12 +1,15 @@
 {
   "name": "autonomy-irl-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Autonomy IRL",
   "main": "dist/autonomy-irl.umd.js",
   "module": "dist/autonomy-irl.es5.js",
   "typings": "dist/types/autonomy-irl.d.ts",
   "directories": {
     "test": "test"
+  },
+  "compilerOptions": {
+    "target": "es6"
   },
   "scripts": {
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
@@ -28,5 +31,8 @@
     "eslint-plugin-import": "^2.25.4",
     "husky": "^7.0.4",
     "tape": "^5.5.2"
+  },
+  "dependencies": {
+    "@taquito/taquito": "^16.1.2"
   }
 }
