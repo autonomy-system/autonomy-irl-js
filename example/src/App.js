@@ -39,13 +39,17 @@ function closeWebview() {
 
 function testEth() {
   _getAddress("eip155").then((value) => {
+    //https://goerli.etherscan.io/tx/0x2de201778ea6038a7a7ffbaceeb09431e1aec1043545a951de4fb29f3d74b476
   var address = value;
     var tx = {
       "from": address,
-      "to": address,
+      "to": "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+      "gas": "0xb00a",
+      "value": "0x6f05b59d3b20000",
+      "data": "0xd0e30db0"
     }
     var metadata = {
-      "name": "test",
+      "name": "test uniswap",
       "url": "#",
       "icons": [""]
     };
