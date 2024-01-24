@@ -19,7 +19,7 @@ export class AutonomyIRL {
     eth: "eip155",
   };
 
-  getAddress(chain: string, metadata: any, params: any) {
+  public getAddress(chain: string, metadata: any, params: any) {
     return window.flutter_inappwebview.callHandler("getAddress", {
       chain: chain,
       metadata: metadata,
@@ -27,7 +27,7 @@ export class AutonomyIRL {
     });
   }
 
-  sendTransaction(
+  public sendTransaction(
     chain: string,
     sourceAddress: string,
     transactions: any,
@@ -48,7 +48,8 @@ export class AutonomyIRL {
       metadata: metadata,
     });
   }
-  signMessage(
+
+  public signMessage(
     payload: any,
     sourceAddress: string,
     chain: string,
@@ -61,7 +62,8 @@ export class AutonomyIRL {
       metadata: metadata,
     });
   }
-  closeWebview() {
+
+  public closeWebview() {
     return window.flutter_inappwebview.callHandler("closeWebview");
   }
 }
