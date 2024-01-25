@@ -23,26 +23,28 @@ export declare class AUWalletProvider implements WalletProvider {
     getPKH(): Promise<string>;
     mapTransferParamsToWalletParams(params: () => Promise<WalletTransferParams>): Promise<{
         kind: string;
-        destination: string;
-        fee: string | undefined;
-        amount: string;
-        mutez: boolean | undefined;
-        gasLimit: string | undefined;
-        entrypoint: string | undefined;
-        parameters: import("@taquito/rpc").MichelsonV1Expression | undefined;
-        storageLimit: string | undefined;
+        destination: any;
+        fee: any;
+        amount: any;
+        mutez: any;
+        gasLimit: any;
+        entrypoint: any;
+        parameters: any;
+        storageLimit: any;
     }>;
     mapOriginateParamsToWalletParams(params: () => Promise<WalletOriginateParams>): Promise<{
         kind: string;
-        balance: string | undefined;
-        fee: string | undefined;
-        gasLimit: string | undefined;
-        storageLimit: string | undefined;
-        delegate: string | undefined;
-        mutez: boolean | undefined;
-        code: string | object[];
+        balance: any;
+        fee: any;
+        gasLimit: any;
+        storageLimit: any;
+        delegate: any;
+        mutez: any;
+        code: any;
     }>;
     mapDelegateParamsToWalletParams(params: () => Promise<WalletDelegateParams>): Promise<WalletDelegateParams>;
     mapIncreasePaidStorageWalletParams(params: () => Promise<WalletIncreasePaidStorageParams>): Promise<WalletIncreasePaidStorageParams>;
     sendOperations(params: any[]): Promise<any>;
+    sign(bytes: string, watermark?: Uint8Array | undefined): Promise<string>;
+    getPK(): Promise<string>;
 }

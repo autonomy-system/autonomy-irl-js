@@ -2,7 +2,7 @@
   "name": "autonomy-irl-js",
   "version": "1.0.2",
   "description": "Autonomy IRL",
-  "main": "dist/autonomy-irl.umd.js",
+  "main": "dist/lib/autonomy-irl.js",
   "module": "dist/autonomy-irl.es5.js",
   "typings": "dist/types/autonomy-irl.d.ts",
   "directories": {
@@ -33,6 +33,6 @@
     "tape": "^5.5.2"
   },
   "dependencies": {
-    "@taquito/taquito": "^16.1.2"
+    "@taquito/taquito": "^17.5.2"
   }
 }

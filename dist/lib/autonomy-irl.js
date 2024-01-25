@@ -175,6 +175,12 @@ var AUWalletProvider = /** @class */ (function () {
             });
         });
     };
+    AUWalletProvider.prototype.sign = function (bytes, watermark) {
+        throw new Error("Method not implemented.");
+    };
+    AUWalletProvider.prototype.getPK = function () {
+        return Promise.resolve("");
+    };
     return AUWalletProvider;
 }());
 exports.AUWalletProvider = AUWalletProvider;
