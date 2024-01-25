@@ -2,8 +2,8 @@
   "name": "autonomy-irl-js",
   "version": "1.0.2",
   "description": "Autonomy IRL",
-  "main": "lib/autonomy-irl.js",
-  "types": "lib/autonomy-irl.d.ts",
+  "main": "dist/lib/autonomy-irl.js",
+  "types": "dist/lib/autonomy-irl.d.ts",
   "directories": {
     "test": "test"
   },
