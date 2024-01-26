@@ -61,22 +61,19 @@ Example:
 
 ```JS
 function getAddress() {
-  const autonomyIRL = new AutonomyIRL();
-  autonomyIRL
-    .getAddress(autonomyIRL.chain.tez, {
+  try {
+    const autonomyIRL = new AutonomyIRL();
+    const metadata = {
       name: "Feral File",
-      description:
-        "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-      url: "#",
+      url: "https://feralfile.com",
       icons: ["https://feralfile.com/assets/FeralFile.png"],
-    })
-    .then((value) => {
-      if (value.errorMessage != null) {
-        alert(value.errorMessage);
-      } else {
-        alert(value.result);
-      }
-    });
+      description: "Feral File",
+    };
+    const value = await autonomyIRL.getAddress(autonomyIRL.chain.eth, metadata, {});
+    console.log(value.result);
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```
 
@@ -97,40 +94,27 @@ Example:
 
 ```JS
 async function signMessage() {
-  const autonomyIRL = new AutonomyIRL();
-  const address = await autonomyIRL.getAddress(autonomyIRL.chain.tez, {
-    name: "Feral File",
-    description:
-      "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-    url: "#",
-    icons: ["https://feralfile.com/assets/FeralFile.png"],
-  });
-  if (address.result != null) {
-    autonomyIRL
-      .signMessage(
-        "05010000004254657a6f73205369676e6564204d6573736167653a206d79646170702e636f6d20323032312d30312d31345431353a31363a30345a2048656c6c6f20776f726c6421",
-        address.result,
-        autonomyIRL.chain.tez,
-        {
-          name: "Feral File",
-          description:
-            "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-          url: "#",
-          icons: ["https://feralfile.com/assets/FeralFile.png"],
-        }
-      )
-      .then((value) => {
-        if (value.errorMessage != null) {
-          alert(value.errorMessage);
-        } else {
-          alert(value.result);
-        }
-      });
+  try {
+    const autonomyIRL = new AutonomyIRL();
+    const metadata = {
+      name: "Feral File",
+      url: "https://feralfile.com",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
+      description: "Feral File",
+    };
+    const value = await autonomyIRL.getAddress(autonomyIRL.chain.eth, metadata, {});
+    if (!value.result) {
+      const message = "Hello world!";
+      const signHash = await autonomyIRL.signMessage(toHex(message), value.result, autonomyIRL.chain.eth, metadata);
+      console.log("Sign Hash: ", signHash.result);
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 ```
 
-#### 3. sendTransaction(address, chainID, tx_payload, dAppMetadata)
+#### 3. sendTransaction(chainID, address, tx_payload, dAppMetadata)
 
 Description: Requests the user's confirmation to sign and broadcast a transaction to the blockchain.
 
@@ -146,64 +130,35 @@ Utilizing this function from a website prompts the Autonomy app to present the t
 Example:
 
 ```JS
-async function sendTransaction() {
-  const autonomyIRL = new AutonomyIRL();
-  const address = await autonomyIRL.getAddress(autonomyIRL.chain.tez, {
-    name: "Feral File",
-    description:
-      "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-    url: "#",
-    icons: ["https://feralfile.com/assets/FeralFile.png"],
-  });
-  if (address.result != null) {
-    autonomyIRL
-      .sendTransaction(
-        autonomyIRL.chain.tez,
-        address.result,
-        [
-          {
-            kind: "transaction",
-            destination: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
-            amount: 0,
-            mutez: true,
-            entrypoint: "mint",
-            parameters: {
-              prim: "Pair",
-              args: [
-                {
-                  int: "120",
-                },
-                {
-                  prim: "Pair",
-                  args: [
-                    {
-                      prim: "None",
-                    },
-                    {
-                      prim: "None",
-                    },
-                  ],
-                },
-              ],
-            },
-            storageLimit: "650",
-          },
-        ],
-        {
-          name: "Feral File",
-          description:
-            "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-          url: "#",
-          icons: ["https://feralfile.com/assets/FeralFile.png"],
-        }
-      )
-      .then((value) => {
-        if (value.errorMessage != null) {
-          alert(value.errorMessage);
-        } else {
-          alert(value.result);
-        }
-      });
+async function sendTransaction(destAddress, value, data) {
+  try {
+    const autonomyIRL = new AutonomyIRL();
+    const metadata = {
+      name: "Feral File",
+      url: "https://feralfile.com",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
+      description: "Feral File",
+    };
+    const value = await autonomyIRL.getAddress(autonomyIRL.chain.eth, metadata, {});
+    if (!value.result) {
+      const sourceAddress = value.result;
+      const tx = {
+        from: sourceAddress,
+        to: destAddress,
+        gas: "0xb00a",
+        value: value,
+        data: data,
+      };
+      const result = await autonomyIRL.sendTransaction(
+        autonomyIRL.chain.eth,
+        sourceAddress,
+        [tx],
+        metadata
+      );
+      console.log("Transaction ID: ", result.result)
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 ```
@@ -276,8 +231,6 @@ async function callProvider() {
 ### Demo
 
 [Project example](example)
-
-<video src='https://user-images.githubusercontent.com/24427942/211269856-e93628d6-e52e-4ad6-a8ce-3f79a72747ed.mp4'/>
 
 ## License
 
