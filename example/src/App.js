@@ -1,71 +1,97 @@
 import logo from "./logo.svg";
 import "./App.css";
+import React, { useState } from "react";
 
-// import autonomyIRL from "autonomy-irl-js";
-// get an address by blockchain
-// blockchain = "Tezos" => get tez address
-// blockchain = "Ethereum" => get eth address
-function getAddress(blockChain) {
-  _getAddress(blockChain).then((value) => {
-    alert(value);
-  });
-}
-
-async function _getAddress(blockChain){
-  var result = await window.flutter_inappwebview.callHandler("getAddress", {
-    chain: blockChain,
-  });
-  return result.result;
-}
-
-function signMessage(payload, chain, metadata) {
-  console.log("signMessage");
-  _getAddress("eip155").then((value) => {
-    window.flutter_inappwebview.callHandler("signMessage", {
-      payload: payload,
-      sourceAddress: value,
-      chain: chain,
-      metadata: metadata,
-    }).then((value) => {
-      alert(value.result);
-    });
-  });
-  
-}
-function closeWebview() {
-  window.flutter_inappwebview.callHandler("closeWebview");
-}
-
-
-function testEth() {
-  _getAddress("eip155").then((value) => {
-    //https://goerli.etherscan.io/tx/0x2de201778ea6038a7a7ffbaceeb09431e1aec1043545a951de4fb29f3d74b476
-  var address = value;
-    var tx = {
-      "from": address,
-      "to": "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
-      "gas": "0xb00a",
-      "value": "0x6f05b59d3b20000",
-      "data": "0xd0e30db0"
-    }
-    var metadata = {
-      "name": "test uniswap",
-      "url": "#",
-      "icons": [""]
-    };
-    console.log(value);
-    window.flutter_inappwebview.callHandler("sendTransaction", {
-      chain: "eip155",
-      sourceAddress: address,
-      transactions: [tx],
-      metadata: metadata,
-    }).then((value) => {
-      alert(value.result);
-    });
-  });
-}
+import { AutonomyIRL } from "autonomy-irl-js";
 
 function App() {
+  const autonomyIRL = new AutonomyIRL();
+  const [error, setError] = useState("");
+  const [address, setAddress] = useState("");
+  const [signMessageHash, setSignMessageHash] = useState("");
+  const [transactionID, setTransactionID] = useState("");
+  const signMessageText = "Feral File App sign message";
+  const metadata = {
+    name: "Feral File App",
+    url: "https://feralfile.com",
+    icons: ["https://feralfile.com/assets/FeralFile.png"],
+    description: "Feral File App",
+  };
+
+  function resetData() {
+    setAddress("");
+    setSignMessageHash("");
+    setTransactionID("");
+    setError("");
+  }
+
+  function toHex(str) {
+    var hex = "";
+    for (var i = 0; i < str.length; i++) {
+      hex += "" + str.charCodeAt(i).toString(16);
+    }
+    return hex;
+  }
+
+  async function _getAddress(blockChain){
+    try {
+      const result = await autonomyIRL.getAddress(blockChain, {}, {});
+      return result.result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async function getAddress(blockChain) {
+    try {
+      resetData();
+      const address = await _getAddress(blockChain);
+      setAddress(address);
+    } catch (err) {
+      setError(err);
+    }
+  }
+
+  async function signMessage(payload, chain, metadata) {
+    try {
+      resetData();
+      const address = await _getAddress(chain);
+      setAddress(address);
+      const signHash = await autonomyIRL.signMessage(toHex(payload.toString()), address, chain, metadata);
+      setSignMessageHash(signHash.result);
+    } catch (err) {
+      setError(err);
+    }
+  }
+  function closeWebview() {
+    autonomyIRL.closeWebview();
+  }
+
+
+  async function sendETH() {
+    try {
+      const address = await _getAddress(autonomyIRL.chain.eth);
+      setAddress(address);
+      const tx = {
+        from: address,
+        to: address,
+        gas: "0xb00a",
+        value: "5000000000000000",
+        data: "0xd0e30db0",
+      };
+
+      const result = await autonomyIRL.sendTransaction(
+        autonomyIRL.chain.eth,
+        address,
+        [tx],
+        metadata
+      );
+      setTransactionID(result.result);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -73,13 +99,30 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={() => getAddress("eip155")}>Get Ethereum Address</button>
-        <br></br>
-        <button onClick={() => testEth()}>Send eth transaction</button>
-        <br></br>
-        <button onClick={() => signMessage("1234567890", "eip155", {"name":"test"})}>Ethereum sign message</button>
-        <br></br>
-        <button onClick={() => closeWebview()}>Close Webview</button>
+        <div className="info">
+          { address && address !== "" && <p>Your selected: {address}</p> }
+          { signMessageHash && signMessageHash !== "" && <p>Your signed message: {signMessageHash}</p> }
+          { transactionID && transactionID !== "" && <p>Your transaction ID: {transactionID}</p> }
+          { error && error !== "" && <p>Error: {error}</p> }
+        </div>
+        <div className="action-container">
+          <button onClick={() => getAddress(autonomyIRL.chain.eth)}>Get Ethereum Address</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => getAddress(autonomyIRL.chain.tez)}>Get Tezos Address</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => sendETH()}>Send eth transaction</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => signMessage(signMessageText, autonomyIRL.chain.eth, metadata)}>Ethereum sign message</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => signMessage(signMessageText, autonomyIRL.chain.tez, metadata)}>Tezos sign message</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => closeWebview()}>Close Webview</button>
+        </div>
       </header>
     </div>
   );
