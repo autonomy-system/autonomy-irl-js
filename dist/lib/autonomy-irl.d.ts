@@ -45,4 +45,6 @@ export declare class AUWalletProvider implements WalletProvider {
     mapDelegateParamsToWalletParams(params: () => Promise<WalletDelegateParams>): Promise<WalletDelegateParams>;
     mapIncreasePaidStorageWalletParams(params: () => Promise<WalletIncreasePaidStorageParams>): Promise<WalletIncreasePaidStorageParams>;
     sendOperations(params: any[]): Promise<any>;
+    sign(bytes: string, watermark?: Uint8Array | undefined): Promise<string>;
+    getPK(): Promise<string>;
 }

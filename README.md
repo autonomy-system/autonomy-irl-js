@@ -1,13 +1,17 @@
 # Autonomy IRL
 
 ## Introduction
+
 The IRL (In the Real Life) library is designed to facilitate seamless interaction between the Autonomy app and websites that support its JavaScript functions. This document outlines the usage and functionality of the IRL library, allowing websites to connect with the Autonomy app's webview and access crucial information and services.
 
 ## Download the Autonomy app
+
 ### iOS
-https://apps.apple.com/us/app/autonomy-app/id1544022728
+
+https://apps.apple.com/us/app/feral-file/id1544022728
 
 ### Android
+
 https://play.google.com/store/apps/details?id=com.bitmark.autonomy_client
 
 ## Library
@@ -27,21 +31,26 @@ npm test
 ### Usage
 
 #### Construct a URL to scan
+
 ```
 https://autonomy.io/apps/irl/{{ url_encoded(your_url }}
 ```
 
 **Example:**
 To let the Autonomy app open this URL: `https://example.com?query=1`
+
 ```
 https://autonomy.io/apps/irl/https%3A%2F%2Fexample.com%3Fquery%3D1
 ```
 
 ### Functions
+
 #### 1. getAddress(chainID, dAppMetadata)
+
 Description: Retrieves the address associated with the Autonomy wallet.
 
 Parameters:
+
 - `chainID`: The chain ID to request the address, it could be on Ethereum or Tezos blockchain.
 - `dAppMetadata`: The metadata of the website to present on the Autonomy.
 
@@ -49,6 +58,7 @@ Usage:
 Calling this function from a website connected to the Autonomy app allows the website to retrieve the user's wallet address.
 
 Example:
+
 ```JS
 function getAddress() {
   const autonomyIRL = new AutonomyIRL();
@@ -71,9 +81,11 @@ function getAddress() {
 ```
 
 #### 2. signMessage(message, address, chainID, dAppMetadata)
+
 Description: Requests the Autonomy app to sign a provided message using the selected wallet.
 
 Parameters:
+
 - `message`: The message to be signed.
 - `chainID`: The chain ID to request the address, it could be on Ethereum or Tezos blockchain.
 - `dAppMetadata`: The metadata of the website to present on the Autonomy.
@@ -82,6 +94,7 @@ Usage:
 Invoking this function from a website enables the app to sign a specific message (personal_sign) with the user's selected wallet.
 
 Example:
+
 ```JS
 async function signMessage() {
   const autonomyIRL = new AutonomyIRL();
@@ -116,11 +129,13 @@ async function signMessage() {
   }
 }
 ```
+
 #### 3. sendTransaction(address, chainID, tx_payload, dAppMetadata)
 
 Description: Requests the user's confirmation to sign and broadcast a transaction to the blockchain.
 
 Parameters:
+
 - `tx_payload`: The transaction payload containing all necessary information.
 - `chainID`: The chain ID to request the address, it could be on Ethereum or Tezos blockchain.
 - `dAppMetadata`: The metadata of the website to present on the Autonomy.
@@ -129,6 +144,7 @@ Usage:
 Utilizing this function from a website prompts the Autonomy app to present the transaction details to the user, allowing them to review and authorize the transaction.
 
 Example:
+
 ```JS
 async function sendTransaction() {
   const autonomyIRL = new AutonomyIRL();
@@ -191,14 +207,15 @@ async function sendTransaction() {
   }
 }
 ```
+
 ```JS
 function closeWebview() {
   autonomyIRL.closeWebview();
 }
 ```
 
-
 #### 4. AUWalletProvider
+
 ```JS
 async function callProvider() {
   try {
