@@ -19,7 +19,7 @@ https://play.google.com/store/apps/details?id=com.bitmark.autonomy_client
 ### Install
 
 ```bash
-npm install autonomy-irl-js
+npm install github:autonomy-system/autonomy-irl-js
 ```
 
 ### Run Tests
