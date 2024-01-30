@@ -48,3 +48,4 @@ export declare class AUWalletProvider implements WalletProvider {
     sign(bytes: string, watermark?: Uint8Array | undefined): Promise<string>;
     getPK(): Promise<string>;
 }
+//# sourceMappingURL=autonomy-irl.d.ts.map
