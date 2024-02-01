@@ -116,10 +116,13 @@ class AUWalletProvider {
         });
     }
     sign(bytes, watermark) {
-        throw new Error("Method not implemented.");
+        return __awaiter(this, void 0, void 0, function* () {
+            const value = yield this.autonomyIRL.signMessage(bytes, this._pkh, this.autonomyIRL.chain.tez, this.metadata);
+            return value.result;
+        });
     }
     getPK() {
-        return Promise.resolve("");
+        throw new Error("Method not implemented yet.");
     }
 }
 exports.AUWalletProvider = AUWalletProvider;

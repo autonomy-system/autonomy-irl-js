@@ -171,59 +171,45 @@ function closeWebview() {
 
 #### 4. AUWalletProvider
 
+##### 4.1 signProvider
+
 ```JS
-async function callProvider() {
+async function callSignMessageProvider() {
   try {
-    const tezos = new TezosToolkit("https://api.tez.ie/rpc/carthagenet");
+    const tezos = new TezosToolkit(tezosRPCNode);
+    const aUWalletProvider = new AUWalletProvider(metadata);
+    tezos.setProvider({ wallet: aUWalletProvider });
+    const address = await aUWalletProvider.getPKH();
+    setAddress(address);
+    const signHash = await aUWalletProvider.sign(toHex(signMessageText), address);
+    setSignMessageHash(signHash);
+  } catch (error) {
+    alert(error);
+  }
+}
+```
 
-    const auWalletProvider = new AUWalletProvider({
-      name: "Feral File",
-      description:
-        "Feral File - Exhibiting, Curating, and Collecting Digital Media",
-      url: "#",
-      icons: ["https://feralfile.com/assets/FeralFile.png"],
-    });
+##### 4.2 sendOperations Provider
 
-    tezos.setWalletProvider(auWalletProvider);
-
-    await tezos.wallet.pkh();
-
+```JS
+async function callSendOperationProvider() {
+  try {
+    const tezos = new TezosToolkit(tezosRPCNode);
+    const aUWalletProvider = new AUWalletProvider(metadata);
+    tezos.setProvider({ wallet: aUWalletProvider });
+    const address = await aUWalletProvider.getPKH();
+    setAddress(address);
     const ops = [];
-
     ops.push({
       kind: OpKind.TRANSACTION,
-      to: "KT1Sy7X6TubmZ39G8CHVrUcxjc3jiF68P8oB",
-      amount: 1,
-      mutez: true,
-      parameter: {
-        entrypoint: "mint",
-        value: {
-          prim: "Pair",
-          args: [
-            {
-              int: "34",
-            },
-            {
-              prim: "Pair",
-              args: [
-                {
-                  prim: "None",
-                },
-                {
-                  prim: "None",
-                },
-              ],
-            },
-          ],
-        },
-      },
-      storageLimit: 650,
+      amount: "1200000",
+      destination: address,
     });
 
-    const transaction = await tezos.wallet.batch().with(ops).send();
-    console.log(transaction.opHash);
+    const result = await aUWalletProvider.sendOperations(ops);
+    setTransactionID(result);
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 }
 ```

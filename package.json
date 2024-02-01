@@ -1,6 +1,6 @@
 {
   "name": "autonomy-irl-js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Autonomy IRL",
   "main": "dist/lib/autonomy-irl.js",
   "types": "dist/lib/autonomy-irl.d.ts",
