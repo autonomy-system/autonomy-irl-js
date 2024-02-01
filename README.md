@@ -176,13 +176,20 @@ function closeWebview() {
 ```JS
 async function callSignMessageProvider() {
   try {
+    const tezosRPCNode = 'https://ghostnet.ecadinfra.com';
+    const metadata = {
+      name: "Feral File",
+      url: "https://feralfile.com",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
+      description: "Feral File",
+    };
     const tezos = new TezosToolkit(tezosRPCNode);
-    const aUWalletProvider = new AUWalletProvider(metadata);
-    tezos.setProvider({ wallet: aUWalletProvider });
-    const address = await aUWalletProvider.getPKH();
-    setAddress(address);
-    const signHash = await aUWalletProvider.sign(toHex(signMessageText), address);
-    setSignMessageHash(signHash);
+    const auWalletProvider = new AUWalletProvider(metadata);
+    tezos.setProvider({ wallet: auWalletProvider });
+    const address = await auWalletProvider.getPKH();
+    console.log("Address": address);
+    const signHash = await auWalletProvider.sign(toHex(signMessageText), address);
+    console.log("Sign Hash: ", signHash);
   } catch (error) {
     alert(error);
   }
@@ -194,11 +201,18 @@ async function callSignMessageProvider() {
 ```JS
 async function callSendOperationProvider() {
   try {
+    const tezosRPCNode = 'https://ghostnet.ecadinfra.com';
+    const metadata = {
+      name: "Feral File",
+      url: "https://feralfile.com",
+      icons: ["https://feralfile.com/assets/FeralFile.png"],
+      description: "Feral File",
+    };
     const tezos = new TezosToolkit(tezosRPCNode);
-    const aUWalletProvider = new AUWalletProvider(metadata);
-    tezos.setProvider({ wallet: aUWalletProvider });
-    const address = await aUWalletProvider.getPKH();
-    setAddress(address);
+    const auWalletProvider = new AUWalletProvider(metadata);
+    tezos.setProvider({ wallet: auWalletProvider });
+    const address = await auWalletProvider.getPKH();
+    console.log("Address": address);
     const ops = [];
     ops.push({
       kind: OpKind.TRANSACTION,
@@ -206,8 +220,8 @@ async function callSendOperationProvider() {
       destination: address,
     });
 
-    const result = await aUWalletProvider.sendOperations(ops);
-    setTransactionID(result);
+    const result = await auWalletProvider.sendOperations(ops);
+    console.log("Transaction ID: ", result);
   } catch (error) {
     alert(error);
   }
