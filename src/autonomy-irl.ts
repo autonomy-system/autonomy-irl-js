@@ -144,13 +144,18 @@ export class AUWalletProvider implements WalletProvider {
     return value.result;
   }
 
-
-  sign(bytes: string, watermark?: Uint8Array | undefined): Promise<string> {
-    throw new Error("Method not implemented.");
+  async sign(bytes: string, watermark?: Uint8Array | undefined): Promise<string> {
+    const value = await this.autonomyIRL.signMessage(
+      bytes,
+      this._pkh,
+      this.autonomyIRL.chain.tez,
+      this.metadata
+    );
+    return value.result;
   }
 
   getPK(): Promise<string> {
-    return Promise.resolve("");
+    throw new Error("Method not implemented yet.");
   }
 
 }
