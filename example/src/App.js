@@ -2,7 +2,10 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 
-import { AutonomyIRL } from "autonomy-irl-js";
+import { AUWalletProvider, AutonomyIRL } from "autonomy-irl-js";
+import { OpKind, TezosToolkit } from "@taquito/taquito";
+
+const tezosRPCNode = 'https://ghostnet.ecadinfra.com';
 
 function App() {
   const autonomyIRL = new AutonomyIRL();
@@ -92,6 +95,76 @@ function App() {
     }
   }
 
+  async function sendTezos() {
+    try {
+      const address = await _getAddress(autonomyIRL.chain.tez);
+      setAddress(address);
+      const ops = [];
+      ops.push({
+        kind: OpKind.TRANSACTION,
+        amount: "1000000",
+        destination: address,
+      });
+
+      const result = await autonomyIRL.sendTransaction(
+        autonomyIRL.chain.tez,
+        address,
+        ops,
+        metadata
+      );
+      setTransactionID(result.result);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function callGetPKHProvider() {
+    try {
+      const tezos = new TezosToolkit(tezosRPCNode);
+      const auWalletProvider = new AUWalletProvider(metadata);
+      tezos.setProvider({ wallet: auWalletProvider });
+      const address = await auWalletProvider.getPKH();
+      setAddress(address);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function callSignMessageProvider() {
+    try {
+      const tezos = new TezosToolkit(tezosRPCNode);
+      const auWalletProvider = new AUWalletProvider(metadata);
+      tezos.setProvider({ wallet: auWalletProvider });
+      const address = await auWalletProvider.getPKH();
+      setAddress(address);
+      const signHash = await auWalletProvider.sign(toHex(signMessageText), address);
+      setSignMessageHash(signHash);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function callSendOperationProvider() {
+    try {
+      const tezos = new TezosToolkit(tezosRPCNode);
+      const aUWalletProvider = new AUWalletProvider(metadata);
+      tezos.setProvider({ wallet: aUWalletProvider });
+      const address = await aUWalletProvider.getPKH();
+      setAddress(address);
+      const ops = [];
+      ops.push({
+        kind: OpKind.TRANSACTION,
+        amount: "1200000",
+        destination: address,
+      });
+
+      const result = await aUWalletProvider.sendOperations(ops);
+      setTransactionID(result);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -115,10 +188,22 @@ function App() {
           <button onClick={() => sendETH()}>Send eth transaction</button>
         </div>
         <div className="action-container">
+          <button onClick={() => sendTezos()}>Send 1 Tezos</button>
+        </div>
+        <div className="action-container">
           <button onClick={() => signMessage(signMessageText, autonomyIRL.chain.eth, metadata)}>Ethereum sign message</button>
         </div>
         <div className="action-container">
           <button onClick={() => signMessage(signMessageText, autonomyIRL.chain.tez, metadata)}>Tezos sign message</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => callGetPKHProvider()}>Call getPKH Provider</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => callSignMessageProvider()}>Call signMessage Provider</button>
+        </div>
+        <div className="action-container">
+          <button onClick={() => callSendOperationProvider()}>Call sendOperations Provider</button>
         </div>
         <div className="action-container">
           <button onClick={() => closeWebview()}>Close Webview</button>
