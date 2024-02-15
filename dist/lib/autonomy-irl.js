@@ -24,6 +24,12 @@ class AutonomyIRL {
             params: params,
         });
     }
+    passData(type, data) {
+        return window.flutter_inappwebview.callHandler("passData", {
+            type: type,
+            data: data,
+        });
+    }
     sendTransaction(chain, sourceAddress, transactions, metadata) {
         console.log(JSON.stringify({
             chain: chain,

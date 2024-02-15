@@ -11,6 +11,7 @@ export declare class AutonomyIRL {
         eth: string;
     };
     getAddress(chain: string, metadata: any, params: any): any;
+    passData(type: string, data: any): any;
     sendTransaction(chain: string, sourceAddress: string, transactions: any, metadata: any): any;
     signMessage(payload: any, sourceAddress: string, chain: string, metadata: any): any;
     closeWebview(): any;

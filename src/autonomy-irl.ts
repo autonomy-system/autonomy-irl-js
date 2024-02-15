@@ -49,6 +49,13 @@ export class AutonomyIRL {
     });
   }
 
+  passData(type: string, data: any) {
+    return window.flutter_inappwebview.callHandler("passData", {
+      type: type,
+      data: data,
+    });
+  }
+
   signMessage(
     payload: any,
     sourceAddress: string,
